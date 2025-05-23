@@ -13,7 +13,7 @@ export class Artist {
   @Prop({ required: true })
   description: string;
   @Prop({ required: true })
-  isPublished: string;
+  isPublished: boolean;
 }
 
 export const ArtistSchema = SchemaFactory.createForClass(Artist);

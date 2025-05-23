@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Album, AlbumSchema } from './schemas/album.schema';
 import { AlbumsController } from './albums/albums.controller';
 import { Artist, ArtistSchema } from './schemas/artist.schema';
+import { TracksController } from './tracks/tracks.controller';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { Artist, ArtistSchema } from './schemas/artist.schema';
       { name: Artist.name, schema: ArtistSchema },
     ]),
   ],
-  controllers: [AppController, ArtistsController, AlbumsController],
+  controllers: [AppController, ArtistsController, AlbumsController, TracksController],
   providers: [AppService],
 })
 export class AppModule {}
