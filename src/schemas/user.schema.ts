@@ -10,9 +10,15 @@ const ARGON2_OPTIONS = {
   parallelism: 1,
 };
 
+export enum UserRole {
+  USER = 'user',
+  ADMIN = 'admin',
+}
+
 export interface UserDocument extends Document, User {
   generateToken: () => void;
   checkPassword: (password: string) => Promise<boolean>;
+  role: UserRole;
 }
 
 @Schema()
@@ -28,6 +34,9 @@ export class User {
 
   @Prop({ required: true })
   token: string;
+
+  @Prop({ required: true, enum: UserRole, default: UserRole.USER })
+  role: UserRole;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

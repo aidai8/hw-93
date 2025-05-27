@@ -5,11 +5,7 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
-  ) {
-
-  }
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async validateUser(email: string, pass: string) {
     const user = await this.userModel.findOne({ email });

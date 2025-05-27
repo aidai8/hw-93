@@ -6,7 +6,7 @@ import {
   Param,
   Post,
   Query,
-  UploadedFile,
+  UploadedFile, UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -15,6 +15,8 @@ import { Model } from 'mongoose';
 import { CreateAlbumDto } from './create-album.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { albumStorage } from '../multer.config';
+import { TokenAuthGuard } from '../token-auth/token-auth.guard';
+import { AdminGuard } from '../guards/admin.guard';
 
 @Controller('albums')
 export class AlbumsController {
@@ -33,6 +35,8 @@ export class AlbumsController {
   getOne(@Param('id') id: string) {
     return this.albumModel.find({ _id: id });
   }
+
+  @UseGuards(TokenAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image', { storage: albumStorage }))
   async create(
@@ -49,6 +53,8 @@ export class AlbumsController {
 
     return await album.save();
   }
+
+  @UseGuards(TokenAuthGuard, AdminGuard)
   @Delete(':id')
   deleteAlbum(@Param('id') id: string) {
     return this.albumModel.findByIdAndDelete(id);
